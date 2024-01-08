@@ -4,13 +4,14 @@ services:
     build:
       context: .
       dockerfile: ./docker/dockerfile-user
-    image: go-blog-user-auth
+    image: go-blog-user-service
     environment:
-      APP_NAME: "user-auth-service"
+      APP_NAME: "user-service"
     ports:
       - 5001:5001
     networks:
-      - blog-realworld-network
+      - blog_realworld_network
 
 networks:
-  blog-realworld-network:
+  blog_realworld_network:
+    driver: bridge

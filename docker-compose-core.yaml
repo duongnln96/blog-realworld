@@ -3,6 +3,7 @@ services:
   postgres:
     image: postgres:14-alpine
     container_name: postgres-14
+    restart: always
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -13,12 +14,30 @@ services:
       timeout: 5s
       retries: 5
     ports:
+      - "9042:9042"
+    volumes:
+      - data_volume:/var/lib/postgresql/data
+    networks:
+      - blog_realworld_pg_network
+
+  scylla-node1:
+    container_name: scylla-node1
+    image: scylladb/scylla:5.2.0
+    restart: always
+    command: --smp 1 --memory 500M --overprovisioned 1 --api-address 0.0.0.0
+    ports:
       - "5432:5432"
     volumes:
-      - data-volume:/var/lib/postgresql/data
+      - scylla_data_volume:/var/lib/scylla
+    networks:
+      - blog_realworld_scylla_network
 
 volumes:
-  data-volume:
+  data_volume:
+  scylla_data_volume:
 
 networks:
-  blog-realworld-network:
+  blog_realworld_pg_network:
+    driver: bridge
+  blog_realworld_scylla_network:
+    driver: bridge

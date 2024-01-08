@@ -73,3 +73,11 @@ func LoadConfig(configPath string) *Configs {
 	onceConfigs = readAllConfig(configPath)
 	return onceConfigs
 }
+
+func GetConfig() *Configs {
+	if onceConfigs == nil {
+		log.Fatal("Config still not load")
+	}
+
+	return onceConfigs
+}

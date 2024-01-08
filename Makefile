@@ -24,3 +24,11 @@ clean:
 wire:
 	cd internal/user/app/http_server && wire && cd -
 .PHONY: wire
+
+up_core_env:
+	docker compose -f docker-compose-core.yaml up -d
+.PHONY: up_core_env
+
+down_core_env:
+	docker compose -f docker-compose-core.yaml down
+.PHONY: down_core_env
